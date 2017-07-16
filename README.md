@@ -1,5 +1,8 @@
 ## Implementation of the paper Grounded Language Learning in a Simulated 3D World in PyTorch
 
+To run the custom learning environment, run the following command:
+`` bazel run :game level_script language_learning ``
+
 ### Milestones:
 
 **1.** Setting up agent environment:
