@@ -2,11 +2,13 @@
 
 ### Milestones:
 
-1. Setting up agent environment:
-	a. Generate custom map.  DONE
-	b. Generate custom scoring for objects. 
-	c. Generate natural language commands. 
+**1.** Setting up agent environment:
+- [x] Generate custom map
+- [ ] Generate custom scoring for objects
+- [ ] Generate natural language commands
 
-2. Build the NN model in pytorch.
+**2.** Build the RL model in pytorch
+
+
 
 
