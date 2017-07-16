@@ -1,12 +1,18 @@
 ## Implementation of the paper Grounded Language Learning in a Simulated 3D World in PyTorch
 
+To run the custom learning environment, run the following command:
+
+`` bazel run :game level_script language_learning ``
+
 ### Milestones:
 
-1. Setting up agent environment:
-	a. Generate custom map.  DONE
-	b. Generate custom scoring for objects. 
-	c. Generate natural language commands. 
+**1.** Setting up agent environment:
+- [x] Generate custom map
+- [ ] Generate custom scoring for objects
+- [ ] Generate natural language commands
 
-2. Build the NN model in pytorch.
+**2.** Build the RL model in pytorch
+
+
 
 
