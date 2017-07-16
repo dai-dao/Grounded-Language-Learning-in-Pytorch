@@ -15,7 +15,8 @@ To run the custom learning environment, run the following command:
 - [x] Baseline Actor-Critic RL agent
 - [x] Neural Network Modules Implementation (Vison, Language, Mixing, Action, Policy)
 - [x] Tested baseline implementation
-- [ ] Implement auxiliary tasks
+- [x] Implement auxiliary tasks (temporal AutoEncoder, Language Predictor, Reward Predictor)
+- [ ] Implement training loop with experience replay 
 - [ ] Train agent on custom environment
 
 
