@@ -16,7 +16,8 @@ To run the custom learning environment, run the following command:
 - [x] Neural Network Modules Implementation (Vison, Language, Mixing, Action, Policy)
 - [x] Tested baseline implementation
 - [x] Implement auxiliary tasks (temporal AutoEncoder, Language Predictor, Reward Predictor)
-- [ ] Implement training loop with experience replay 
+- [x] Implement training loop with experience replay 
+- [ ] Implement distributed training
 - [ ] Train agent on custom environment
 
 
