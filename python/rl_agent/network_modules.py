@@ -28,7 +28,7 @@ class Vision_M(nn.Module):
     
 
 class Language_M(nn.Module):
-    def __init__(self, vocab_size=100, embed_dim=128, hidden_size=128):
+    def __init__(self, vocab_size=10, embed_dim=128, hidden_size=128):
         '''
             Use the same hyperparameter settings denoted in the paper
         '''
@@ -54,7 +54,6 @@ class Language_M(nn.Module):
         return h
 
     def LP(self, x):
-        
         return F.linear(x, self.embeddings.weight)
     
 

@@ -5,6 +5,9 @@ local make_map = {}
 
 local pickups = {
     A = 'apple_reward',
+    L = 'lemon_reward',
+    S = 'strawberry_reward',
+    F = 'fungi_reward',
     G = 'goal',
 }
 

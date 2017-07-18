@@ -1,20 +1,3 @@
-# Copyright 2016 Google Inc.
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-"""Basic random agent for DeepMind Lab."""
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -31,7 +14,6 @@ def _action(*entries):
 
 
 class DiscretizedRandomAgent(object):
-  """Simple agent for DeepMind Lab."""
 
   ACTIONS = {
       'look_left': _action(-20, 0, 0, 0, 0, 0, 0),
@@ -104,6 +86,9 @@ class SpringAgent(object):
 
   def step(self, reward, unused_frame):
     """Gets an image state and a reward, returns an action."""
+    frame = np.array(unused_frame)
+    print('This is Image size', frame.shape)
+
     self.rewards += reward
 
     action = (self.maxs - self.mins) * np.random.random_sample(
@@ -139,7 +124,7 @@ class SpringAgent(object):
 def run(length, width, height, fps, level):
   """Spins up an environment and runs the random agent."""
   env = deepmind_lab.Lab(
-      level, ['RGB_INTERLACED'],
+      level, ['RGB_INTERLACED', 'ORDER'],
       config={
           'fps': str(fps),
           'width': str(width),
@@ -163,6 +148,12 @@ def run(length, width, height, fps, level):
     action = agent.step(reward, obs['RGB_INTERLACED'])
     reward = env.step(action, num_steps=1)
 
+    observation_spec = env.observation_spec()
+    observation_names = {o['name'] for o in observation_spec}
+
+    print(obs['ORDER'])
+
+
   print('Finished after %i steps. Total reward received is %f'
         % (length, agent.rewards))
 
@@ -171,15 +162,15 @@ if __name__ == '__main__':
   parser = argparse.ArgumentParser(description=__doc__)
   parser.add_argument('--length', type=int, default=1000,
                       help='Number of steps to run the agent')
-  parser.add_argument('--width', type=int, default=80,
+  parser.add_argument('--width', type=int, default=84,
                       help='Horizontal size of the observations')
-  parser.add_argument('--height', type=int, default=80,
+  parser.add_argument('--height', type=int, default=84,
                       help='Vertical size of the observations')
   parser.add_argument('--fps', type=int, default=60,
                       help='Number of frames per second')
   parser.add_argument('--runfiles_path', type=str, default=None,
                       help='Set the runfiles path to find DeepMind Lab data')
-  parser.add_argument('--level_script', type=str, default='tests/demo_map',
+  parser.add_argument('--level_script', type=str, default='language_learning',
                       help='The environment level script to load')
 
   args = parser.parse_args()

@@ -8,8 +8,8 @@ To run the custom learning environment, run the following command:
 
 **1.** Setting up agent environment:
 - [x] Generate custom map
-- [ ] Generate custom scoring for objects
-- [ ] Generate natural language commands
+- [x] Generate scoring logic for training
+- [x] Generate natural language commands
 
 **2.** Build the RL model in pytorch
 - [x] Baseline Actor-Critic RL agent
@@ -18,6 +18,6 @@ To run the custom learning environment, run the following command:
 - [x] Implement auxiliary tasks (temporal AutoEncoder, Language Predictor, Reward Predictor)
 - [x] Implement training loop with experience replay 
 - [ ] Implement distributed training
-- [ ] Train agent on custom environment
+- [ ] Train agent 
 
 
