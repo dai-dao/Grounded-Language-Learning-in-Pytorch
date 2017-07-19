@@ -1,8 +1,24 @@
 ## Implementation of the paper Grounded Language Learning in a Simulated 3D World in PyTorch
 
+### Requirements:
+- Python 2.7
+- Pytorch
+- Bazel (to build DeepMind Lab)
+
+### Usage:
 To run the custom learning environment, run the following command:
 
-`` bazel run :game level_script language_learning ``
+`` bazel run :learning_agent ``
+
+### Reinforcement Learning agent:
+The goal of the paper is to teach the agent to do specific tasks using natural language command and visual input, for example in this implementation:
+`` Find apples ``
+`` Find strawberries ``
+
+Visual input:
+
+![Image 1](python/rl_agent/results/img_0.png)
+![Image 2](python/rl_agent/results/img_2_0.png)
 
 ### Milestones:
 
@@ -17,7 +33,9 @@ To run the custom learning environment, run the following command:
 - [x] Tested baseline implementation
 - [x] Implement auxiliary tasks (temporal AutoEncoder, Language Predictor, Reward Predictor)
 - [x] Implement training loop with experience replay 
-- [ ] Implement distributed training
-- [ ] Train agent 
 
+**3.** Train the agent
+- [ ] Implement distributed training
+- [ ] Run on GPU instance (it takes too much for my CPU to perform just one update, the code would need to be optimized further)
+- [ ] Monitor and compare results with DeepMind (It'll be awesome if I can achieve comparable results)
 
