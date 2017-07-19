@@ -131,7 +131,7 @@ class RL_Agent(object):
         for episode in range(self.args.num_episodes):
             self.env.reset()
             state = self.process_state(self.env.observations())
-            
+		
             episode_length = 0
             while True:
                 episode_length += 1
