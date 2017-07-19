@@ -15,6 +15,8 @@ The goal of the paper is to teach the agent to do specific tasks using natural l
 `` Find apples `` or 
 `` Find strawberries ``
 
+The agent will receive positive points for picking specified object, and negative points for other objects. Optimization step is performed when the replay memory buffer is full, and then cleared. 
+
 Visual input:
 
 ![Image 1](python/rl_agent/results/img_0.png)
