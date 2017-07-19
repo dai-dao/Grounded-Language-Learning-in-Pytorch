@@ -7,12 +7,14 @@
 
 ### Usage:
 To train the agent on the custom learning environment, run the following command:
+
 `` bazel run :learning_agent ``
 
 To run in human mode:
+
 `` bazel run :game -- --level_script language_learning``
 
-Agent code is in the folder **python/rl_agent**
+Agent code is in the folder [python/rl_agent](python/rl_agent)
 
 ### Reinforcement Learning agent:
 The goal of the paper is to teach the agent to do specific tasks using natural language command and visual input, for example in this implementation:
