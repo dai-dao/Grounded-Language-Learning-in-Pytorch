@@ -12,13 +12,13 @@ To run the custom learning environment, run the following command:
 
 ### Reinforcement Learning agent:
 The goal of the paper is to teach the agent to do specific tasks using natural language command and visual input, for example in this implementation:
-`` Find apples ``
+`` Find apples `` or 
 `` Find strawberries ``
 
 Visual input:
 
 ![Image 1](python/rl_agent/results/img_0.png)
-![Image 2](python/rl_agent/results/img_2_0.png)
+![Image 2](python/rl_agent/results/img_2_3.png)
 
 ### Milestones:
 
