@@ -15,6 +15,7 @@ To run in human mode:
 `` bazel run :game -- --level_script language_learning``
 
 Agent code is in the folder [python/rl_agent](python/rl_agent)
+Environment code is written in Lua [assets/game_scripts/language_learning.lua](assets/game_scripts/language_learning.lua)
 
 ### Reinforcement Learning agent:
 The goal of the paper is to teach the agent to do specific tasks using natural language command and visual input, for example in this implementation:
