@@ -164,19 +164,6 @@ def run(length, width, height, fps, level):
     obs = env.observations()
 
     action = agent.step(reward, obs['RGB_INTERLACED'])
-	
-    ####################################################
-    import scipy.misc as sm
-
-    print('Printing images')
-    sm.imsave('/tmp/lab_results/img_2_{}.png'.format(i), obs['RGB_INTERLACED'])
-
-    if i == 3:
-      break 
-
-    ####################################################
- 
-
     reward = env.step(action, num_steps=1)
 
   print('Finished after %i steps. Total reward received is %f'
