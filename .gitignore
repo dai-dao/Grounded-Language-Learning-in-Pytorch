@@ -1,0 +1,6 @@
+/bazel-*
+__pycache__
+.vscode
+.ipynb_checkpoints
+*.pyc
+*.ipynb
