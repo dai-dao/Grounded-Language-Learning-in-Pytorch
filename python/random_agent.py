@@ -53,7 +53,9 @@ class DiscretizedRandomAgent(object):
     """Gets an image state and a reward, returns an action."""
     return random.choice(DiscretizedRandomAgent.ACTION_LIST)
 
-
+  def reset():
+    pass
+    
 class SpringAgent(object):
   """A random agent using spring-like forces for its action evolution."""
 
@@ -149,8 +151,8 @@ def run(length, width, height, fps, level):
   env.reset()
 
   # Starts the random spring agent. As a simpler alternative, we could also
-  # use DiscretizedRandomAgent().
-  agent = SpringAgent(env.action_spec())
+  agent = DiscretizedRandomAgent().
+  #agent = SpringAgent(env.action_spec())
 
   reward = 0
 

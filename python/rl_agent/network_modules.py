@@ -38,15 +38,10 @@ class Language_M(nn.Module):
         self.embed_dim = embed_dim
         self.hidden_size = hidden_size
         
-        self.embeddings = nn.Embedding(vocab_size, embed_dim)  # 2 words in vocab, 5 dimensional embeddings
+        self.embeddings = nn.Embedding(vocab_size, embed_dim)  
         self.lstm = nn.LSTM(embed_dim, hidden_size, num_layers=1, batch_first=True)
         
     def forward(self, x):
-        '''
-            Argument
-                x: natural language instructions encoded in word indices, has shape
-                    [batch_size, seq]
-        '''
         embedded_input = self.embeddings(x)
         out, hn = self.lstm(embedded_input)
         h, c = hn
@@ -134,7 +129,7 @@ class Policy(nn.Module):
         '''
         Temporal Autoencoder sub-task
         Argument:
-            action_logits: shape [1, 10]
+            action_logits: shape [1, action_space]
         
         Return:
             output has shape: [1, 128]

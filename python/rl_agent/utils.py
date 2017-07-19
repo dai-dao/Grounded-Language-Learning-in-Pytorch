@@ -20,7 +20,7 @@ class ReplayMemory(object):
     def push(self, *args):
         self.memory.append(Transition(*args))
         
-        while len(self.memory) >= self.capacity:
+        while len(self.memory) > self.capacity:
             self.memory.pop(0)
 
     def sample(self, batch_size):
@@ -30,6 +30,13 @@ class ReplayMemory(object):
     def __len__(self):
         return(len(self.memory))
     
+    def full(self):
+        if (len(self.memory) >= self.capacity):
+            return True
+        return False
+    
+    def clear(self):
+        self.memory = []
     
 class FakeEnvironment(object):
     def __init__(self):

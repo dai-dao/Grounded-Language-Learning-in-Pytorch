@@ -11,7 +11,7 @@ from network_modules import *
 State = namedtuple('State', ('visual', 'instruction'))
 
 class Model(nn.Module):
-    def __init__(self):
+    def __init__(self, action_space):
         super(Model, self).__init__()
         
         # Core modules
@@ -21,7 +21,7 @@ class Model(nn.Module):
         self.action_m = Action_M()
         
         # Action selection and Value Critic
-        self.policy = Policy(action_space=10)
+        self.policy = Policy(action_space=action_space)
         
         # Auxiliary networks
         self.tAE = temporal_AutoEncoder(self.policy, self.vision_m)
@@ -33,10 +33,9 @@ class Model(nn.Module):
         '''
         Argument:
         
-            img: environment image, shape [batch_size, 3, 84, 84]
+            img: environment image, shape [batch_size, 84, 84, 3]
             instruction: natural language instruction [batch_size, seq]
         '''
-        
         vision_out = self.vision_m(x.visual)
         language_out = self.language_m(x.instruction)
         mix_out = self.mixing_m(vision_out, language_out)
