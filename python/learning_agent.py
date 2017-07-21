@@ -8,9 +8,8 @@ import numpy as np
 from rl_agent.actor_critic import RL_Agent
 import deepmind_lab
 
-
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument('--length', type=int, default=1000,
+parser.add_argument('--length', type=int, default=10000,
                     help='Number of steps to run the agent')
 parser.add_argument('--width', type=int, default=84,
                     help='Horizontal size of the observations')

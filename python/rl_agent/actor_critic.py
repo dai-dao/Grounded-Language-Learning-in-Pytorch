@@ -110,12 +110,14 @@ class RL_Agent(object):
         value_replay_loss = 0.5 * torch.squeeze((R_vr - auxiliary_batch.value[index]).pow(2))
 
         # Back-propagation
+        print("BACKPROPAGATION")
         (policy_loss + 0.5 * value_loss + reward_prediction_loss + 
                              tae_loss + language_prediction_loss + 
                              value_replay_loss).backward(retain_variables=True)
         torch.nn.utils.clip_grad_norm(self.model.parameters(), self.args.clip_grad_norm)
 
         # Apply updates
+        print("STEP UPDATE")
         self.optimizer.step()
 
     def process_state(self, state):
@@ -128,7 +130,9 @@ class RL_Agent(object):
         return State(Variable(img), Variable(order))
 
     def train(self):
+
         for episode in range(self.args.num_episodes):
+            print("STARTED EPISODE", episode)
             self.env.reset()
             state = self.process_state(self.env.observations())
 		
@@ -153,6 +157,9 @@ class RL_Agent(object):
                 action = prob.multinomial().data
                 log_prob = log_prob.gather(1, Variable(action))
 
+                if not self.env.is_running():
+                    self.env.reset() # Environment timed-out        
+
                 # Perform the action on the environment
                 reward = self.env.step(self.ACTIONS[action.numpy()[0][0]], num_steps=4)
                 next_state = self.process_state(self.env.observations())
@@ -163,7 +170,6 @@ class RL_Agent(object):
 
                 # Push to experience replay buffer
                 # THERE IS NO Terminal state in the buffer, ONLY transition
-                # THere'll be NO resetting the MEMORY Buffer
                 self.memory.push(state, logit, next_state, reward, value)
 
                 if self.memory.full():
@@ -173,7 +179,8 @@ class RL_Agent(object):
                     
                     # Perform optimization when memory is full
                     print('Optimizing at episode length', episode_length)
-                    self.optimize_model(values, log_probs, rewards, entropies)
+                    
+                    # self.optimize_model(values, log_probs, rewards, entropies)
                     # Clear memory 
                     self.memory.clear()
                     
@@ -181,6 +188,6 @@ class RL_Agent(object):
                 state = next_state
                 
                 # Go to next episode
-                if episode_length >= self.args.length - 10:
+                if episode_length >= self.args.length / 10:
                     print('Episode {} / {} has completed'.format(episode, self.args.num_episodes))
                     break
