@@ -48,5 +48,7 @@ Visual input:
 - [ ] Implement distributed training
 - [x] Run on GPU instance (it takes too much for my CPU to perform just one update, the code would need to be optimized further)
 - [ ] Monitor and compare results with DeepMind (It'll be awesome if I can achieve comparable results)
+- [ ] Monitor loss, save model
+- [ ] Implement skewed sampling, reward prediction
 - [ ] Implement more complex training scenarios, relational commands, etc.
 
