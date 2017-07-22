@@ -36,6 +36,7 @@ class Model(nn.Module):
             img: environment image, shape [batch_size, 84, 84, 3]
             instruction: natural language instruction [batch_size, seq]
         '''
+        
         vision_out = self.vision_m(x.visual)
         language_out = self.language_m(x.instruction)
         mix_out = self.mixing_m(vision_out, language_out)

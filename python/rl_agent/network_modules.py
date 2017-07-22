@@ -81,11 +81,11 @@ class Action_M(nn.Module):
         self.lstm_1 = nn.LSTMCell(input_size=3264, hidden_size=256)
         self.lstm_2 = nn.LSTMCell(input_size=256, hidden_size=256)
         
-        self.hidden_1 = (Variable(torch.randn(batch_size, hidden_size)), 
-                        Variable(torch.randn(batch_size, hidden_size))) 
+        self.hidden_1 = (Variable(torch.randn(batch_size, hidden_size)).cuda(), 
+                        Variable(torch.randn(batch_size, hidden_size)).cuda()) 
         
-        self.hidden_2 = (Variable(torch.randn(batch_size, hidden_size)), 
-                        Variable(torch.randn(batch_size, hidden_size))) 
+        self.hidden_2 = (Variable(torch.randn(batch_size, hidden_size)).cuda(), 
+                        Variable(torch.randn(batch_size, hidden_size)).cuda()) 
         
     def forward(self, x):
         '''

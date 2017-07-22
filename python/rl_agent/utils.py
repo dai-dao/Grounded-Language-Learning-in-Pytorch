@@ -43,13 +43,13 @@ class FakeEnvironment(object):
         pass
     
     def reset(self):
-        return self.generate_state()
+        pass
     
     def step(self, action):
         return self.generate_state(), 2, False, 1
         
-    def generate_state(self):
-        vision = Variable(torch.randn(1, 3, 84, 84))
-        instruction = Variable(torch.LongTensor(np.random.randint(1, 100, size=(1, 10))))
+    def observations(self):
+        vision = np.random.randint(0, 100, (84, 84, 3))
+        instruction = np.random.randint(0, 10, (4))
         
-        return State(vision, instruction)
+        return {'RGB_INTERLACED' : vision, 'ORDER' : instruction}

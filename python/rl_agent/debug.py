@@ -1,12 +1,7 @@
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
+from utils import *
 import argparse
-import random
-import numpy as np
-from rl_agent.actor_critic import RL_Agent
-import deepmind_lab
+from actor_critic import RL_Agent
+
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--length', type=int, default=200000,
@@ -27,19 +22,9 @@ parser.add_argument('--gamma', type=int, default=0.99, help='Discounted factor')
 parser.add_argument('--clip-grad-norm', type=int, default=1.0, help='Clip gradient')
 parser.add_argument('--num-episodes', type=int, default=100, help='Number of training episodes')
 
+
 args = parser.parse_args()
-if args.runfiles_path:
-  deepmind_lab.set_runfiles_path(args.runfiles_path)
-
-
-# Create environment
-env = deepmind_lab.Lab( 
-    args.level_script, ['RGB_INTERLACED', 'ORDER'],
-    config={
-        'fps': str(args.fps),
-        'width': str(args.width),
-        'height': str(args.height)
-    })
+env = FakeEnvironment()
 
 # Start the Reinforcement Learning agent
 agent = RL_Agent(env, args)

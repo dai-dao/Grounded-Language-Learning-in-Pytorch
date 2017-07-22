@@ -4,6 +4,8 @@ local screen_message = require 'common.screen_message'
 local tensor = require 'dmlab.system.tensor'
 local random = require 'common.random'
 local custom_observations = require 'decorators.custom_observations'
+local timeout = require 'decorators.timeout'
+
 
 local api = {}
 
@@ -146,5 +148,7 @@ function api:screenMessages(args)
   return { message_order }
 end
 
+-- Set timeout for 4 minutes
+timeout.decorate(api, 4 * 60)
 
 return api

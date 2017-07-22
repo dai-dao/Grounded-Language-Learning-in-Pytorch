@@ -28,17 +28,17 @@ class RL_Agent(object):
             _action(0, 0, 0, 0, 0, 0, 1)]
         
         self.model = Model(len(self.ACTIONS))
-        self.model.float()
+        self.optimizer = optim.RMSprop(self.model.parameters(), lr=0.0001)
+        self.model.cuda()
         
         self.memory = ReplayMemory(200)
         self.args = args
         self.env = env
         
-        self.optimizer = optim.RMSprop(self.model.parameters())
        
     def optimize_model(self, values, log_probs, rewards, entropies):
         R = values[-1]
-        gae = torch.zeros(1, 1)
+        gae = torch.zeros(1, 1).type(torch.cuda.FloatTensor)
 
         # Base A3C Loss
         policy_loss, value_loss = 0, 0
@@ -102,7 +102,7 @@ class RL_Agent(object):
 
         self.optimizer.zero_grad()
         reward_prediction_loss = \
-                torch.sum((rp_predicted - Variable(torch.FloatTensor(batch_rp_output))).pow(2))
+                torch.sum((rp_predicted - Variable(torch.cuda.FloatTensor(batch_rp_output))).pow(2))
 
         # Value function replay
         index = np.random.randint(0, 10)
@@ -110,32 +110,35 @@ class RL_Agent(object):
         value_replay_loss = 0.5 * torch.squeeze((R_vr - auxiliary_batch.value[index]).pow(2))
 
         # Back-propagation
-        print("BACKPROPAGATION")
-        (policy_loss + 0.5 * value_loss + reward_prediction_loss + 
-                             tae_loss + language_prediction_loss + 
-                             value_replay_loss).backward(retain_variables=True)
+        total_loss = (policy_loss + 0.5 * value_loss +  \
+                     reward_prediction_loss +  tae_loss +  \
+                     language_prediction_loss + value_replay_loss).cuda()
+                
+        total_loss.backward(retain_variables=True)
         torch.nn.utils.clip_grad_norm(self.model.parameters(), self.args.clip_grad_norm)
 
         # Apply updates
-        print("STEP UPDATE")
         self.optimizer.step()
+        return total_loss.cpu().data.numpy()
+        
 
     def process_state(self, state):
         img = np.expand_dims(np.transpose(state['RGB_INTERLACED'], (2, 0, 1)), 0)
         order = np.expand_dims((state['ORDER']), 0)
         
-        img = torch.from_numpy(img).float()
-        order = torch.from_numpy(order).long()
+        img = torch.from_numpy(img).type(torch.cuda.FloatTensor)
+        order = torch.from_numpy(order).type(torch.cuda.LongTensor)
         
         return State(Variable(img), Variable(order))
 
     def train(self):
 
-        for episode in range(self.args.num_episodes):
+        for episode in range(10):
             print("STARTED EPISODE", episode)
             self.env.reset()
+            
             state = self.process_state(self.env.observations())
-		
+            total_loss = 0
             episode_length = 0
             while True:
                 episode_length += 1
@@ -146,7 +149,7 @@ class RL_Agent(object):
                 entropies = []
                 
                 logit, value = self.model(state)
-
+                
                 # Calculate entropy from action probability distribution
                 prob = F.softmax(logit)
                 log_prob = F.log_softmax(logit)
@@ -155,13 +158,12 @@ class RL_Agent(object):
 
                 # Take an action from distribution
                 action = prob.multinomial().data
-                log_prob = log_prob.gather(1, Variable(action))
-
-                if not self.env.is_running():
-                    self.env.reset() # Environment timed-out        
+                log_prob = log_prob.gather(1, Variable(action))       
 
                 # Perform the action on the environment
-                reward = self.env.step(self.ACTIONS[action.numpy()[0][0]], num_steps=4)
+                reward = self.env.step(self.ACTIONS[action.cpu().numpy()[0][0]], num_steps=4)
+                if not self.env.is_running():
+                    self.env.reset() # Environment timed-out 
                 next_state = self.process_state(self.env.observations())
                 
                 values.append(value)
@@ -178,9 +180,9 @@ class RL_Agent(object):
                     next_state = self.process_state(self.env.observations())
                     
                     # Perform optimization when memory is full
-                    print('Optimizing at episode length', episode_length)
+                    loss = self.optimize_model(values, log_probs, rewards, entropies)
+                    total_loss += loss
                     
-                    # self.optimize_model(values, log_probs, rewards, entropies)
                     # Clear memory 
                     self.memory.clear()
                     
@@ -189,5 +191,7 @@ class RL_Agent(object):
                 
                 # Go to next episode
                 if episode_length >= self.args.length / 10:
-                    print('Episode {} / {} has completed'.format(episode, self.args.num_episodes))
+                    total_loss /= self.args.length / 10
+                    print('Episode {} / {} has completed. Episode loss is {}'.
+                                       format(episode, self.args.num_episodes, total_loss))
                     break

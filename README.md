@@ -46,7 +46,7 @@ Visual input:
 
 **3.** Train the agent
 - [ ] Implement distributed training
-- [ ] Run on GPU instance (it takes too much for my CPU to perform just one update, the code would need to be optimized further)
+- [x] Run on GPU instance (it takes too much for my CPU to perform just one update, the code would need to be optimized further)
 - [ ] Monitor and compare results with DeepMind (It'll be awesome if I can achieve comparable results)
 - [ ] Implement more complex training scenarios, relational commands, etc.
 
